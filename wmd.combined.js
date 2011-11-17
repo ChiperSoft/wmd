@@ -1529,61 +1529,64 @@
 					return spacer;
 				}
 
+        // Detection of mac for displaying proper modifier key.
+        var modifierKey = (navigator.appVersion.indexOf("Mac")!=-1) ? "Cmd" : "Ctrl";
+
 				var buttonlist = wmd_options.buttons.split(' ');
 				for (var i=0;i<buttonlist.length;i++) {
 					switch (buttonlist[i]) {
 					case "bold":
-						addButton("wmd-bold-button", "Strong <strong> Ctrl+B", command.doBold);
+						addButton("wmd-bold-button", "Strong <strong> "+modifierKey+"+B", command.doBold);
 						break;
 					case "italic":
-						addButton("wmd-italic-button", "Emphasis <em> Ctrl+I", command.doItalic);
+						addButton("wmd-italic-button", "Emphasis <em> "+modifierKey+"+I", command.doItalic);
 						break;
 					case 'link':
-						addButton("wmd-link-button", "Hyperlink <a> Ctrl+L", function (chunk, postProcessing, useDefaultText) {
+						addButton("wmd-link-button", "Hyperlink <a> "+modifierKey+"+L", function (chunk, postProcessing, useDefaultText) {
 							return command.doLinkOrImage(chunk, postProcessing, false);
 						});
 						break;
 					case 'blockquote':
-						addButton("wmd-quote-button", "Blockquote <blockquote> Ctrl+Q", command.doBlockquote);
+						addButton("wmd-quote-button", "Blockquote <blockquote> "+modifierKey+"+Q", command.doBlockquote);
 						break;
 					case 'code':
-						addButton("wmd-code-button", "Code Sample <pre><code> Ctrl+K", command.doCode);
+						addButton("wmd-code-button", "Code Sample <pre><code> "+modifierKey+"+K", command.doCode);
 						break;
 					case 'image':
-						addButton("wmd-image-button", "Image <img> Ctrl+G", function (chunk, postProcessing, useDefaultText) {
+						addButton("wmd-image-button", "Image <img> "+modifierKey+"+G", function (chunk, postProcessing, useDefaultText) {
 							return command.doLinkOrImage(chunk, postProcessing, true);
 						});
 						break;
 					case 'ol':
-						addButton("wmd-olist-button", "Numbered List <ol> Ctrl+O", function (chunk, postProcessing, useDefaultText) {
+						addButton("wmd-olist-button", "Numbered List <ol> "+modifierKey+"+O", function (chunk, postProcessing, useDefaultText) {
 							command.doList(chunk, postProcessing, true, useDefaultText);
 						});
 						break;
 					case 'ul':
-						addButton("wmd-ulist-button", "Bulleted List <ul> Ctrl+U", function (chunk, postProcessing, useDefaultText) {
+						addButton("wmd-ulist-button", "Bulleted List <ul> "+modifierKey+"+U", function (chunk, postProcessing, useDefaultText) {
 							command.doList(chunk, postProcessing, false, useDefaultText);
 						});
 						break;
 					case 'heading':
-						addButton("wmd-heading-button", "Heading <h1>/<h2> Ctrl+H", command.doHeading);
+						addButton("wmd-heading-button", "Heading <h1>/<h2> "+modifierKey+"+H", command.doHeading);
 						break;
 					case 'hr':
-						addButton("wmd-hr-button", "Horizontal Rule <hr> Ctrl+R", command.doHorizontalRule);
+						addButton("wmd-hr-button", "Horizontal Rule <hr> "+modifierKey+"+R", command.doHorizontalRule);
 						break;
 					case 'undo':
-						var undoButton = addButton("wmd-undo-button", "Undo - Ctrl+Z");
+						var undoButton = addButton("wmd-undo-button", "Undo - "+modifierKey+"+Z");
 						undoButton.execute = function (manager) {
 							manager.undo();
 						};
 						break;
 					case 'redo':
-						var redoButton = addButton("wmd-redo-button", "Redo - Ctrl+Y");
+						var redoButton = addButton("wmd-redo-button", "Redo - "+modifierKey+"+Y");
 						if (/win/.test(nav.platform.toLowerCase())) {
-							redoButton.title = "Redo - Ctrl+Y";
+							redoButton.title = "Redo - "+modifierKey+"+Y";
 						}
 						else {
 							// mac and other non-Windows platforms
-							redoButton.title = "Redo - Ctrl+Shift+Z";
+							redoButton.title = "Redo - "+modifierKey+"+Shift+Z";
 						}
 						redoButton.execute = function (manager) {
 							manager.redo();
